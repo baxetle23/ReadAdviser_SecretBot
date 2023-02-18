@@ -10,8 +10,8 @@ RUN go mod download
 COPY main.go ./
 COPY config.json ./
 
-RUN go build -o /telegramBot
+RUN go build -o /app/telegramBot
 
 EXPOSE 8080
 
-CMD ["/telegramBot"]
+CMD ["/app/telegramBot"]
