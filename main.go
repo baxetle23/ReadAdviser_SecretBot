@@ -80,7 +80,7 @@ var (
 )
 
 func main() {
-	//fmt.Println("start project")
+	fmt.Println("telegram bot Lonna start to work")
 	//
 	//tgClient := clients.New(tgBotHost, mustToken())
 	//
@@ -108,10 +108,15 @@ func main() {
 		req.Header.Add("accept", "application/json")
 		req.Header.Add("content-type", "application/json")
 
-		res, _ := http.DefaultClient.Do(req)
+		res, err := http.DefaultClient.Do(req)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-		defer res.Body.Close()
-		body, _ := ioutil.ReadAll(res.Body)
+		body, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		UpdateResponse_ := &UpdateResponse{}
 		jsonErr := json.Unmarshal(body, &UpdateResponse_)
@@ -130,6 +135,7 @@ func main() {
 		}
 
 		time.Sleep(1 * time.Second)
+		defer res.Body.Close()
 	}
 
 }
@@ -163,9 +169,7 @@ func sendMessage(UpdateResponse *UpdateResponse, Token string) error {
 	req.Header.Add("accept", "application/json")
 	req.Header.Add("content-type", "application/json")
 
-	res, _ := http.DefaultClient.Do(req)
-
-	defer res.Body.Close()
+	http.DefaultClient.Do(req)
 
 	return err
 }
